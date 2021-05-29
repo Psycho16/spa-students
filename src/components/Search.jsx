@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const SearchWrapper = styled.div`
   display: flex;
+  margin-bottom: 36px;
 `;
 
 function Search() {
