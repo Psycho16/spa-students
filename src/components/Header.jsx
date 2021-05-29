@@ -16,7 +16,7 @@ const HeaderContainer = styled.div`
   background: #ffffff;
   box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
   margin-bottom: 75px;
-  padding: 0 130px;
+  padding: 22px 130px;
   @media ${(props) => props.theme.media.phone} {
     margin-bottom: 39px;
     padding: 22px 30px;
@@ -40,7 +40,7 @@ const StyledTitle = styled.h1`
   } */
 `;
 
-function Header(props) {
+function Header() {
   return (
     <HeaderContainer>
       <LogoDB src={dbLogo} alt="logo doubletapp" />
