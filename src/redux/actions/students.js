@@ -1,8 +1,12 @@
-export const setStudents = (items) => ({
+export const setStudents = (students) => ({
   type: 'SET_STUDENTS',
-  payload: items,
+  payload: students,
 });
-export const deleteStudent = (items, id) => ({
+export const setInput = (input) => ({
+  type: 'SET_INPUT',
+  payload: input,
+});
+export const deleteStudent = (students, id) => ({
   type: 'DELETE_STUDENTS',
-  payload: items,
+  payload: students,
 });

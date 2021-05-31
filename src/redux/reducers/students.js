@@ -1,5 +1,6 @@
 const initialState = {
   students: [],
+  input: '',
 };
 
 const students = (state = initialState, action) => {
@@ -8,6 +9,11 @@ const students = (state = initialState, action) => {
       return {
         ...state,
         students: action.payload,
+      };
+    case 'SET_INPUT':
+      return {
+        ...state,
+        input: action.payload,
       };
 
     case 'DELETE_STUDENT':

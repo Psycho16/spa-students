@@ -85,18 +85,25 @@ const StudentRating = styled.h2`
 
 function App() {
   const dispatch = useDispatch();
-  const { students } = useSelector(({ students }) => {
+  const { students, input } = useSelector(({ students }) => {
     return {
       students: students.students,
+      input: students.input,
     };
   });
   React.useEffect(() => {
     fetch('https://front-assignment-api.2tapp.cc/api/persons')
       .then((resp) => resp.json())
       .then((json) => {
-        dispatch(setStudents(json.students));
+        dispatch(
+          setStudents(
+            json.students.filter((student) =>
+              student.name.toLowerCase().includes(input.toLowerCase()),
+            ),
+          ),
+        );
       });
-  }, []);
+  }, [input]);
   return (
     <div className="App">
       <Header />
