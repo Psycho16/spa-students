@@ -12,6 +12,12 @@ const AppTitle = styled.h1`
   font-size: 40px;
   line-height: 50px;
   margin-bottom: 47px;
+  @media ${(props) => props.theme.media.phone} {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 38px;
+    margin-bottom: 22px;
+  }
 `;
 const MainContent = styled.div`
   padding: 0 130px;
@@ -36,6 +42,9 @@ const StudentWrapper = styled.div`
   padding-right: 17px;
   padding-left: 6.7%;
   margin-bottom: 12px;
+  @media ${(props) => props.theme.media.phone} {
+    display: none;
+  }
 `;
 const StudentName = styled.h1`
   font-weight: 500;

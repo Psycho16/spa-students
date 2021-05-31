@@ -34,7 +34,12 @@ const StyledTitle = styled.h1`
   font-size: 20px;
   line-height: 44px;
   text-transform: uppercase;
+  font-weight: 500;
   color: ${(props) => props.theme.colors.primary};
+  @media ${(props) => props.theme.media.phone} {
+    font-size: 20px;
+    line-height: 44px;
+  }
   /* &:hover {
     color: ${(props) => props.theme.colors.secondary};
   } */
