@@ -2,6 +2,8 @@ import './App.css';
 import React from 'react';
 import { Header, Search, Students } from './components/index';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { setStudents } from './redux/actions/students';
 
 const AppTitle = styled.h1`
   color: ${(props) => props.theme.colors.primary};
@@ -73,14 +75,17 @@ const StudentRating = styled.h2`
 `;
 
 function App() {
-  const [students, setStudents] = React.useState('');
-
+  const dispatch = useDispatch();
+  const { students } = useSelector(({ students }) => {
+    return {
+      students: students.students,
+    };
+  });
   React.useEffect(() => {
     fetch('https://front-assignment-api.2tapp.cc/api/persons')
       .then((resp) => resp.json())
       .then((json) => {
-        setStudents(json.students);
-        // console.log(students);
+        dispatch(setStudents(json.students));
       });
   }, []);
   return (

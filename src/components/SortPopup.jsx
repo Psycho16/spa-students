@@ -6,16 +6,14 @@ const Sort = styled.div`
   position: relative;
   box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
   border-radius: 6px;
-  width: 15%;
-  height: 48px;
 `;
 const SortLabel = styled.div`
   display: flex;
   align-items: center;
-  width: 15px;
-  height: 48px;
   padding-right: 17px;
   padding-left: 20px;
+  width: 15%;
+  height: 48px;
   @media ${(props) => props.theme.media.phone} {
     width: 100%;
     padding-right: 0;
@@ -37,7 +35,7 @@ const SortLogo = styled.img`
   }
 `;
 const SortPop = styled.div`
-  display: none;
+  /* display: none; */
   position: absolute;
   background: #ffffff;
   box-shadow: 0px 5px 15px rgb(0 0 0 / 9%);
@@ -64,23 +62,48 @@ const SortLi = styled.li`
   }
 `;
 
-function SortPopup() {
+function SortPopup({ items }) {
+  const [visiblePopup, setVisiblePopup] = React.useState(false);
+  const [activeItem, setActiveItem] = React.useState(0);
+  const sortRef = React.useRef();
+  function toggleVisiblePopup() {
+    setVisiblePopup(!visiblePopup);
+  }
+  const activeLabel = items[activeItem];
+
+  function handleOutsideClick(e) {
+    if (!e.path.includes(sortRef.current)) setVisiblePopup(false);
+  }
+
+  React.useEffect(() => {
+    document.body.addEventListener('click', handleOutsideClick);
+  }, []);
   return (
-    <Sort>
+    <Sort onClick={toggleVisiblePopup} ref={sortRef}>
       <SortLabel>
-        <SortSpan>Имя Я-А</SortSpan>
+        <SortSpan>{activeLabel}</SortSpan>
         <SortLogo src={sort} alt="sort-icon"></SortLogo>
       </SortLabel>
-      <SortPop>
-        <SortUl>
-          <SortLi>Имя А-Я</SortLi>
-          <SortLi>Имя Я-А</SortLi>
-          <SortLi>Сначала моложе</SortLi>
-          <SortLi>Сначала старше</SortLi>
-          <SortLi>Высокий рейтинг</SortLi>
-          <SortLi>Низкий рейтинг</SortLi>
-        </SortUl>
-      </SortPop>
+      {visiblePopup ? (
+        <SortPop>
+          <SortUl>
+            {items
+              ? items.map((name, index) => (
+                  <SortLi
+                    key={name}
+                    onClick={() => {
+                      setActiveItem(index);
+                    }}
+                  >
+                    {name}
+                  </SortLi>
+                ))
+              : ''}
+          </SortUl>
+        </SortPop>
+      ) : (
+        ''
+      )}
     </Sort>
   );
 }

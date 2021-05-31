@@ -11,7 +11,16 @@ function Search() {
   return (
     <SearchWrapper>
       <SearchForm />
-      <SortPopup />
+      <SortPopup
+        items={[
+          'Имя А-Я',
+          'Имя Я-А',
+          'Сначала моложе',
+          'Сначала старше',
+          'Высокий рейтинг',
+          'Низкий рейтинг',
+        ]}
+      />
     </SearchWrapper>
   );
 }
