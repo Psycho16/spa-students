@@ -6,13 +6,13 @@ const Sort = styled.div`
   position: relative;
   box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
   border-radius: 6px;
+  width: 15%;
 `;
 const SortLabel = styled.div`
   display: flex;
   align-items: center;
   padding-right: 17px;
   padding-left: 20px;
-  width: 15%;
   height: 48px;
   @media ${(props) => props.theme.media.phone} {
     width: 100%;
@@ -22,6 +22,9 @@ const SortLabel = styled.div`
 const SortSpan = styled.span`
   /* margin-left: 20px; */
   margin-right: 71px;
+  font-size: 12px;
+  line-height: 15px;
+  width: 105px;
   cursor: pointer;
   @media ${(props) => props.theme.media.phone} {
     display: none;
