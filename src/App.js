@@ -95,15 +95,9 @@ function App() {
     fetch('https://front-assignment-api.2tapp.cc/api/persons')
       .then((resp) => resp.json())
       .then((json) => {
-        dispatch(
-          setStudents(
-            json.students.filter((student) =>
-              student.name.toLowerCase().includes(input.toLowerCase()),
-            ),
-          ),
-        );
+        dispatch(setStudents(json.students));
       });
-  }, [input]);
+  }, []);
   return (
     <div className="App">
       <Header />
@@ -118,7 +112,10 @@ function App() {
           <StudentRating>Рейтинг</StudentRating>
         </StudentWrapper>
         <MainStudentsWrapper>
-          {students && students.map((student) => <Students key={student.id} {...student} />)}
+          {students &&
+            students
+              .filter((student) => student.name.toLowerCase().includes(input.toLowerCase()))
+              .map((student) => <Students key={student.id} {...student} />)}
         </MainStudentsWrapper>
       </MainContent>
     </div>
