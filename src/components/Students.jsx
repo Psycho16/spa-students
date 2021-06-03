@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import deleteIcon from '../assets/deleteIcon.svg';
 import ratingStar from '../assets/ratingStar.svg';
 import listPoint from '../assets/ListPoint.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { setStudents } from '../redux/actions/students';
 
 const StudentWrapper = styled.div`
   width: 100%;
@@ -157,7 +159,7 @@ const DeleteButton = styled.img`
 `;
 // Группа ВОзраст Рейтинг Любимый цвет
 function Students(student) {
-  const { avatar, name, specialty, group, color, rating, birthday } = student;
+  const { avatar, name, specialty, group, color, rating, birthday, id } = student;
   const specialties = ['mt', 'kb', 'kn'];
   const rusSpecialties = ['Математика', 'Компьютерная безопасность', 'Компьютерные науки'];
   const rusGroups = ['МТ', 'КБ', 'КН'];
@@ -195,6 +197,19 @@ function Students(student) {
   const age = getAge(birthday);
   const layoutColor = getLayoutColor(color);
 
+  // работа с redux
+  const dispatch = useDispatch();
+  const { students } = useSelector(({ students }) => {
+    return {
+      students: students.students,
+    };
+  });
+
+  function deleteStudent() {
+    // console.log(id);
+    dispatch(setStudents(students.filter((student) => student.id !== id)));
+  }
+
   return (
     <StudentWrapper>
       <StudentAvatar alt="student" src={avatar} />
@@ -216,7 +231,7 @@ function Students(student) {
         {rating}
       </StudentRating>
       <StudentColor style={{ background: layoutColor }}></StudentColor>
-      <DeleteButton src={deleteIcon} />
+      <DeleteButton src={deleteIcon} onClick={() => deleteStudent()} />
     </StudentWrapper>
   );
 }

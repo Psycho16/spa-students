@@ -16,12 +16,6 @@ const students = (state = initialState, action) => {
         input: action.payload,
       };
 
-    case 'DELETE_STUDENT':
-      return {
-        ...state,
-        students: action.payload,
-      };
-
     default:
       return state;
   }
