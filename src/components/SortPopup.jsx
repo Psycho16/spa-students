@@ -1,7 +1,58 @@
 import React from 'react';
 import sort from '../assets/sort.svg';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { setSortType } from '../redux/actions/students';
 
+function SortPopup({ items }) {
+  const dispatch = useDispatch();
+  const [visiblePopup, setVisiblePopup] = React.useState(false);
+  const [activeItem, setActiveItem] = React.useState(0);
+  const sortRef = React.useRef();
+  function toggleVisiblePopup() {
+    setVisiblePopup(!visiblePopup);
+  }
+  const activeLabel = items[activeItem];
+
+  // функиця которая позволяет закрыть popup если кликнуть мимо
+  function handleOutsideClick(e) {
+    if (!e.path.includes(sortRef.current)) setVisiblePopup(false);
+  }
+
+  React.useEffect(() => {
+    document.body.addEventListener('click', handleOutsideClick);
+  }, []);
+
+  return (
+    <Sort onClick={toggleVisiblePopup} ref={sortRef}>
+      <SortLabel>
+        <SortSpan>{activeLabel}</SortSpan>
+        <SortLogo src={sort} alt="sort-icon"></SortLogo>
+      </SortLabel>
+      {visiblePopup ? (
+        <SortPop>
+          <SortUl>
+            {items
+              ? items.map((name, index) => (
+                  <SortLi
+                    key={name}
+                    onClick={() => {
+                      setActiveItem(index);
+                      dispatch(setSortType(name));
+                    }}
+                  >
+                    {name}
+                  </SortLi>
+                ))
+              : ''}
+          </SortUl>
+        </SortPop>
+      ) : (
+        ''
+      )}
+    </Sort>
+  );
+}
 const Sort = styled.div`
   position: relative;
   box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
@@ -64,51 +115,5 @@ const SortLi = styled.li`
     border-radius: 5px;
   }
 `;
-
-function SortPopup({ items }) {
-  const [visiblePopup, setVisiblePopup] = React.useState(false);
-  const [activeItem, setActiveItem] = React.useState(0);
-  const sortRef = React.useRef();
-  function toggleVisiblePopup() {
-    setVisiblePopup(!visiblePopup);
-  }
-  const activeLabel = items[activeItem];
-
-  function handleOutsideClick(e) {
-    if (!e.path.includes(sortRef.current)) setVisiblePopup(false);
-  }
-
-  React.useEffect(() => {
-    document.body.addEventListener('click', handleOutsideClick);
-  }, []);
-  return (
-    <Sort onClick={toggleVisiblePopup} ref={sortRef}>
-      <SortLabel>
-        <SortSpan>{activeLabel}</SortSpan>
-        <SortLogo src={sort} alt="sort-icon"></SortLogo>
-      </SortLabel>
-      {visiblePopup ? (
-        <SortPop>
-          <SortUl>
-            {items
-              ? items.map((name, index) => (
-                  <SortLi
-                    key={name}
-                    onClick={() => {
-                      setActiveItem(index);
-                    }}
-                  >
-                    {name}
-                  </SortLi>
-                ))
-              : ''}
-          </SortUl>
-        </SortPop>
-      ) : (
-        ''
-      )}
-    </Sort>
-  );
-}
 
 export default SortPopup;

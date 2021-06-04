@@ -2,6 +2,17 @@ import React from 'react';
 import dbLogo from '../assets/dbLogo.svg';
 import styled from 'styled-components';
 
+function Header() {
+  return (
+    <HeaderContainer>
+      <LogoDB src={dbLogo} alt="logo doubletapp" />
+      <StyledTitle>
+        Students <StyledSpan>by PsychoXgod</StyledSpan>
+      </StyledTitle>
+    </HeaderContainer>
+  );
+}
+
 const StyledSpan = styled.span`
   display: inline;
   text-transform: lowercase;
@@ -40,20 +51,5 @@ const StyledTitle = styled.h1`
     font-size: 20px;
     line-height: 44px;
   }
-  /* &:hover {
-    color: ${(props) => props.theme.colors.secondary};
-  } */
 `;
-
-function Header() {
-  return (
-    <HeaderContainer>
-      <LogoDB src={dbLogo} alt="logo doubletapp" />
-      <StyledTitle>
-        Students <StyledSpan>by PsychoXgod</StyledSpan>
-      </StyledTitle>
-    </HeaderContainer>
-  );
-}
-
 export default Header;

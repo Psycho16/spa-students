@@ -4,6 +4,22 @@ import searchIcon from '../assets/search.svg';
 import { useDispatch } from 'react-redux';
 import { setInput } from '../redux/actions/students';
 
+function SearchForm() {
+  const dispatch = useDispatch();
+
+  function showInput(e) {
+    dispatch(setInput(e.target.value));
+  }
+  return (
+    <>
+      <FormSearch>
+        <SearchBar type="text" placeholder="Поиск по имени" onChange={showInput} />
+        <SearchIcon src={searchIcon} />
+      </FormSearch>
+    </>
+  );
+}
+
 const FormSearch = styled.form`
   position: relative;
   width: 83%;
@@ -36,20 +52,5 @@ const SearchIcon = styled.img`
   top: 31.25%;
   left: 20px;
 `;
-function SearchForm() {
-  const dispatch = useDispatch();
-
-  function showInput(e) {
-    dispatch(setInput(e.target.value));
-  }
-  return (
-    <>
-      <FormSearch>
-        <SearchBar type="text" placeholder="Поиск по имени" onChange={showInput} />
-        <SearchIcon src={searchIcon} />
-      </FormSearch>
-    </>
-  );
-}
 
 export default SearchForm;
