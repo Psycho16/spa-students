@@ -1,6 +1,7 @@
 const initialState = {
   students: [],
   input: '',
+  sortType: 'Имя А-Я',
 };
 
 const students = (state = initialState, action) => {
@@ -14,6 +15,11 @@ const students = (state = initialState, action) => {
       return {
         ...state,
         input: action.payload,
+      };
+    case 'SET_SORT_TYPE':
+      return {
+        ...state,
+        sortType: action.payload,
       };
 
     default:

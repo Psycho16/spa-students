@@ -6,3 +6,7 @@ export const setInput = (input) => ({
   type: 'SET_INPUT',
   payload: input,
 });
+export const setSortType = (sortType) => ({
+  type: 'SET_SORT_TYPE',
+  payload: sortType,
+});
