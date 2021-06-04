@@ -6,6 +6,84 @@ import listPoint from '../assets/ListPoint.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { setStudents } from '../redux/actions/students';
 
+// Группа ВОзраст Рейтинг Любимый цвет
+function Students(student) {
+  const { avatar, name, specialty, group, color, rating, birthday, id } = student;
+  const specialties = ['mt', 'kb', 'kn'];
+  const rusSpecialties = ['Математика', 'Компьютерная безопасность', 'Компьютерные науки'];
+  const rusGroups = ['МТ', 'КБ', 'КН'];
+  const colors = ['green', 'blue', 'red', 'black', 'yellow', 'orange'];
+  const layoutColors = ['#83C872', '#49C2E8', '#E25B5B', '#000000', '#F7FB53', '#EFA638'];
+
+  //функции
+  function getRusSpecialty(specialty) {
+    return rusSpecialties[specialties.indexOf(specialty)];
+  }
+
+  function getRusGroup(group) {
+    const [abbr, num] = group.split('-');
+    return `${rusGroups[specialties.indexOf(abbr)]}-${num}`;
+  }
+
+  function getAge(birthday) {
+    //   день рождения в формате Год-месяц-день
+    const [year, month, day] = birthday.split('-');
+    const today = new Date(); // сегодняшняя дата
+    const dateBirthday = new Date(year, month, day); // дата рождения в формате Date
+    let age = today.getFullYear() - dateBirthday.getFullYear();
+    const m = today.getMonth() - (dateBirthday.getMonth() - 1); // вычитаем, т.к. в JSе отсчет месяцев начинается с 0
+
+    return m < 0 || (m === 0 && today.getDate() < dateBirthday.getDate()) ? --age : age;
+  }
+
+  function getLayoutColor(color) {
+    return layoutColors[colors.indexOf(color)];
+  }
+
+  // переменные для вывода
+  const rusSpecialty = getRusSpecialty(specialty);
+  const rusGroup = getRusGroup(group);
+  const age = getAge(birthday);
+  const layoutColor = getLayoutColor(color);
+
+  // работа с redux
+  const dispatch = useDispatch();
+  const { students } = useSelector(({ students }) => {
+    return {
+      students: students.students,
+    };
+  });
+
+  function deleteStudent() {
+    dispatch(setStudents(students.filter((student) => student.id !== id)));
+  }
+
+  return (
+    <StudentWrapper>
+      <StudentAvatar alt="student" src={avatar} />
+      <StudentName>{name}</StudentName>
+      <StudentSpecialty>
+        <ListPoint src={listPoint} />
+        {rusSpecialty}
+      </StudentSpecialty>
+      <StudentGroup>
+        <ListPoint src={listPoint} />
+        {rusGroup}
+      </StudentGroup>
+      <StudentAge>
+        <ListPoint src={listPoint} />
+        {age}
+      </StudentAge>
+      <StudentRating>
+        <RatingStar src={ratingStar} />
+        {rating}
+      </StudentRating>
+      <StudentColor style={{ background: layoutColor }}></StudentColor>
+      <DeleteButton src={deleteIcon} onClick={() => deleteStudent()} />
+    </StudentWrapper>
+  );
+}
+
 const StudentWrapper = styled.div`
   width: 100%;
   height: 40px;
@@ -150,6 +228,7 @@ const DeleteButton = styled.img`
   height: 14px;
   background: #ffffff;
   box-shadow: 0px 0px 16.3715px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   /* border-radius: 10px; */
   @media ${(props) => props.theme.media.phone} {
     grid-area: del;
@@ -157,83 +236,5 @@ const DeleteButton = styled.img`
     height: 15px;
   }
 `;
-// Группа ВОзраст Рейтинг Любимый цвет
-function Students(student) {
-  const { avatar, name, specialty, group, color, rating, birthday, id } = student;
-  const specialties = ['mt', 'kb', 'kn'];
-  const rusSpecialties = ['Математика', 'Компьютерная безопасность', 'Компьютерные науки'];
-  const rusGroups = ['МТ', 'КБ', 'КН'];
-  const colors = ['green', 'blue', 'red', 'black', 'yellow', 'orange'];
-  const layoutColors = ['#83C872', '#49C2E8', '#E25B5B', '#000000', '#F7FB53', '#EFA638'];
-
-  //функции
-  function getRusSpecialty(specialty) {
-    return rusSpecialties[specialties.indexOf(specialty)];
-  }
-
-  function getRusGroup(group) {
-    const [abbr, num] = group.split('-');
-    return `${rusGroups[specialties.indexOf(abbr)]}-${num}`;
-  }
-
-  function getAge(birthday) {
-    //   день рождения в формате Год-месяц-день
-    const [year, month, day] = birthday.split('-');
-    const today = new Date(); // сегодняшняя дата
-    const dateBirthday = new Date(year, month, day); // дата рождения в формате Date
-    let age = today.getFullYear() - dateBirthday.getFullYear();
-    const m = today.getMonth() - (dateBirthday.getMonth() - 1); // вычитаем, т.к. в JSе отсчет месяцев начинается с 0
-
-    return m < 0 || (m === 0 && today.getDate() < dateBirthday.getDate()) ? --age : age;
-  }
-
-  function getLayoutColor(color) {
-    return layoutColors[colors.indexOf(color)];
-  }
-
-  // переменные для вывода
-  const rusSpecialty = getRusSpecialty(specialty);
-  const rusGroup = getRusGroup(group);
-  const age = getAge(birthday);
-  const layoutColor = getLayoutColor(color);
-
-  // работа с redux
-  const dispatch = useDispatch();
-  const { students } = useSelector(({ students }) => {
-    return {
-      students: students.students,
-    };
-  });
-
-  function deleteStudent() {
-    // console.log(id);
-    dispatch(setStudents(students.filter((student) => student.id !== id)));
-  }
-
-  return (
-    <StudentWrapper>
-      <StudentAvatar alt="student" src={avatar} />
-      <StudentName>{name}</StudentName>
-      <StudentSpecialty>
-        <ListPoint src={listPoint} />
-        {rusSpecialty}
-      </StudentSpecialty>
-      <StudentGroup>
-        <ListPoint src={listPoint} />
-        {rusGroup}
-      </StudentGroup>
-      <StudentAge>
-        <ListPoint src={listPoint} />
-        {age}
-      </StudentAge>
-      <StudentRating>
-        <RatingStar src={ratingStar} />
-        {rating}
-      </StudentRating>
-      <StudentColor style={{ background: layoutColor }}></StudentColor>
-      <DeleteButton src={deleteIcon} onClick={() => deleteStudent()} />
-    </StudentWrapper>
-  );
-}
 
 export default Students;
